@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- Angular app myapp handles the rendering of employee data from controller Employee-->
+<html data-ng-app="myapp">
+<head>
+<script src="jquery-2.1.3.js"></script>
+<script src="bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="styles/bootstrap.min.css">
+<script src="js/angular/lib/angular.min.js"></script>
+<script src="controller/controller.js"></script>
+</head>
+
+<!-- Adding the main ng controller to render the employees json data on the page -->
+<body data-ng-controller="EmpController" data-ng-init="limitData=10">
+	<div class="container-fluid">
+		
+		<div class="row" style="background-color: black;">
+		<!-- Defining the page header of the page -->
+			<div id="header" class="col-md-12">
+				<label style="color: white; height: 40px;">Project name</label> <input
+					type="text" id="text1" value="search"
+					style="height: 40px; margin-left: 500px; margin-top: 10px;">
+				<label style="color: white; height: 40px; margin-left: 50px;">DashBoard</label>
+				<label style="color: white; height: 40px; margin-left: 50px;">Users</label>
+			</div>
+		</div>
+		<div class="row" style="background-color: white;">
+			<div id="header1" class="col-md-12">
+				<h1>Dashing board</h1>
+				<hr width="100%" size="15%" color="gray">
+			</div>
+		</div>
+		<div class="row" style="background-color: white;">
+
+			<!-- Main Inline Form to filter and sort data by different fields-->
+			<form class="form-inline">
+				<div class="form-group">
+					<label for="Name" style="margin-left: 200px;">Limit:</label> <select
+						class="form-control" id="name" data-ng-model="limitData">
+						<option selected="selected">10</option>
+						<option>30</option>
+						<option>50</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="SortBy" style="margin-left: 50px;">Sort By:</label> <select
+						class="form-control" id="name" data-ng-model="order">
+						<option>name</option>
+						<option>email</option>
+						<option>company</option>
+					</select>
+				</div>
+				<label for="search" style="margin-left: 50px;">Search</label> <input
+					type="text" class="form-control" id="inputEmail"
+					placeholder="Search users.." data-ng-model="filterData">
+			</form>
+		</div>
+		<div class="row" style="background-color: white;">
+
+			<!-- Handling sort on the click of table headers -->
+			<table class="table table-striped">
+				<tr>
+					<!-- adding sort on click -->
+					<th ng-click="Sort('name')">Name</th>
+					<th ng-click="Sort('company')">Company</th>
+					<th ng-click="Sort('email')">Email</th>
+					<th ng-click="Sort('phone')">Phone</th>
+					<th ng-click="Sort('date')">Date</th>
+				</tr>
+				<!-- Rendering Employee Records data by filtering with given fields -->
+				<tr
+					data-ng-repeat="x in results|limitTo:limitData|orderBy:order|filter:filterData">
+					<td>{{x.name}}</td>
+					<td>{{x.company}}</td>
+					<td>{{x.email}}</td>
+					<td>{{x.phone}}</td>
+					<td>{{x.date |date:'medium'}}</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
